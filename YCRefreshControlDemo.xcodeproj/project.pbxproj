@@ -1,0 +1,458 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		487E554A1C09A56A00B36804 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 487E553A1C09A56A00B36804 /* AppDelegate.m */; };
+		487E554B1C09A56A00B36804 /* YCCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 487E553D1C09A56A00B36804 /* YCCollectionViewController.m */; };
+		487E554C1C09A56A00B36804 /* YCMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 487E553F1C09A56A00B36804 /* YCMainViewController.m */; };
+		487E554D1C09A56A00B36804 /* YCScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 487E55411C09A56A00B36804 /* YCScrollViewController.m */; };
+		487E554E1C09A56A00B36804 /* YCTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 487E55431C09A56A00B36804 /* YCTableViewController.m */; };
+		487E55561C09A60A00B36804 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 487E55541C09A60A00B36804 /* CollectionViewCell.m */; };
+		487E55571C09A60A00B36804 /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 487E55551C09A60A00B36804 /* CollectionViewCell.xib */; };
+		487E555A1C0A77C700B36804 /* YCUIWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 487E55591C0A77C700B36804 /* YCUIWebViewController.m */; };
+		D1C1002D1C05481B000D93D4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D1C1002C1C05481B000D93D4 /* main.m */; };
+		D1C100381C05481B000D93D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1C100371C05481B000D93D4 /* Assets.xcassets */; };
+		D1C1003B1C05481B000D93D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1C100391C05481B000D93D4 /* LaunchScreen.storyboard */; };
+		D1C100451C0562DD000D93D4 /* UIScrollView+YCRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = D1C100441C0562DD000D93D4 /* UIScrollView+YCRefresh.m */; };
+		D1C100481C056562000D93D4 /* YCRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D1C100471C056562000D93D4 /* YCRefreshManager.m */; };
+		D1C1004B1C058EF3000D93D4 /* YCNormalRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1C1004A1C058EF3000D93D4 /* YCNormalRefreshView.m */; };
+		D1D757891C060D0300F6DB6D /* ScrollViewFrameAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = D1D757861C060D0300F6DB6D /* ScrollViewFrameAccessor.m */; };
+		D1D7578A1C060D0300F6DB6D /* ViewFrameAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = D1D757881C060D0300F6DB6D /* ViewFrameAccessor.m */; };
+		D1D7578D1C06155100F6DB6D /* YCSlimeRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1D7578C1C06155100F6DB6D /* YCSlimeRefreshView.m */; };
+		D1D757921C06A11700F6DB6D /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = D1D757901C06A11700F6DB6D /* EXTScope.m */; };
+		D1D757961C06E34E00F6DB6D /* YCRefreshDefine.m in Sources */ = {isa = PBXBuildFile; fileRef = D1D757951C06E34E00F6DB6D /* YCRefreshDefine.m */; };
+		D1D757991C070ACA00F6DB6D /* YCCircleRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1D757981C070ACA00F6DB6D /* YCCircleRefreshView.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		487E55391C09A56A00B36804 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		487E553A1C09A56A00B36804 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		487E553C1C09A56A00B36804 /* YCCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCCollectionViewController.h; sourceTree = "<group>"; };
+		487E553D1C09A56A00B36804 /* YCCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCCollectionViewController.m; sourceTree = "<group>"; };
+		487E553E1C09A56A00B36804 /* YCMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCMainViewController.h; sourceTree = "<group>"; };
+		487E553F1C09A56A00B36804 /* YCMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCMainViewController.m; sourceTree = "<group>"; };
+		487E55401C09A56A00B36804 /* YCScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCScrollViewController.h; sourceTree = "<group>"; };
+		487E55411C09A56A00B36804 /* YCScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCScrollViewController.m; sourceTree = "<group>"; };
+		487E55421C09A56A00B36804 /* YCTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCTableViewController.h; sourceTree = "<group>"; };
+		487E55431C09A56A00B36804 /* YCTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCTableViewController.m; sourceTree = "<group>"; };
+		487E55531C09A60A00B36804 /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
+		487E55541C09A60A00B36804 /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
+		487E55551C09A60A00B36804 /* CollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
+		487E55581C0A77C700B36804 /* YCUIWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCUIWebViewController.h; sourceTree = "<group>"; };
+		487E55591C0A77C700B36804 /* YCUIWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCUIWebViewController.m; sourceTree = "<group>"; };
+		48A8FED01C092ED300C6001C /* YCRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCRefreshControl.h; sourceTree = "<group>"; };
+		D1C100281C05481B000D93D4 /* YCRefreshControlDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YCRefreshControlDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1C1002C1C05481B000D93D4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D1C100371C05481B000D93D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D1C1003A1C05481B000D93D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D1C1003C1C05481B000D93D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D1C100431C0562DD000D93D4 /* UIScrollView+YCRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+YCRefresh.h"; sourceTree = "<group>"; };
+		D1C100441C0562DD000D93D4 /* UIScrollView+YCRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+YCRefresh.m"; sourceTree = "<group>"; };
+		D1C100461C056562000D93D4 /* YCRefreshManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCRefreshManager.h; sourceTree = "<group>"; };
+		D1C100471C056562000D93D4 /* YCRefreshManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCRefreshManager.m; sourceTree = "<group>"; };
+		D1C100491C058EF3000D93D4 /* YCNormalRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCNormalRefreshView.h; sourceTree = "<group>"; };
+		D1C1004A1C058EF3000D93D4 /* YCNormalRefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCNormalRefreshView.m; sourceTree = "<group>"; };
+		D1D757851C060D0300F6DB6D /* ScrollViewFrameAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollViewFrameAccessor.h; sourceTree = "<group>"; };
+		D1D757861C060D0300F6DB6D /* ScrollViewFrameAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollViewFrameAccessor.m; sourceTree = "<group>"; };
+		D1D757871C060D0300F6DB6D /* ViewFrameAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewFrameAccessor.h; sourceTree = "<group>"; };
+		D1D757881C060D0300F6DB6D /* ViewFrameAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewFrameAccessor.m; sourceTree = "<group>"; };
+		D1D7578B1C06155100F6DB6D /* YCSlimeRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCSlimeRefreshView.h; sourceTree = "<group>"; };
+		D1D7578C1C06155100F6DB6D /* YCSlimeRefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCSlimeRefreshView.m; sourceTree = "<group>"; };
+		D1D7578F1C06A11700F6DB6D /* EXTScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTScope.h; sourceTree = "<group>"; };
+		D1D757901C06A11700F6DB6D /* EXTScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTScope.m; sourceTree = "<group>"; };
+		D1D757911C06A11700F6DB6D /* metamacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = metamacros.h; sourceTree = "<group>"; };
+		D1D757941C06E34E00F6DB6D /* YCRefreshDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCRefreshDefine.h; sourceTree = "<group>"; };
+		D1D757951C06E34E00F6DB6D /* YCRefreshDefine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCRefreshDefine.m; sourceTree = "<group>"; };
+		D1D757971C070ACA00F6DB6D /* YCCircleRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCCircleRefreshView.h; sourceTree = "<group>"; };
+		D1D757981C070ACA00F6DB6D /* YCCircleRefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCCircleRefreshView.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D1C100251C05481B000D93D4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		487E55381C09A56A00B36804 /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				487E55391C09A56A00B36804 /* AppDelegate.h */,
+				487E553A1C09A56A00B36804 /* AppDelegate.m */,
+			);
+			path = AppDelegate;
+			sourceTree = "<group>";
+		};
+		487E553B1C09A56A00B36804 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				487E553E1C09A56A00B36804 /* YCMainViewController.h */,
+				487E553F1C09A56A00B36804 /* YCMainViewController.m */,
+				487E553C1C09A56A00B36804 /* YCCollectionViewController.h */,
+				487E553D1C09A56A00B36804 /* YCCollectionViewController.m */,
+				487E55401C09A56A00B36804 /* YCScrollViewController.h */,
+				487E55411C09A56A00B36804 /* YCScrollViewController.m */,
+				487E55421C09A56A00B36804 /* YCTableViewController.h */,
+				487E55431C09A56A00B36804 /* YCTableViewController.m */,
+				487E55581C0A77C700B36804 /* YCUIWebViewController.h */,
+				487E55591C0A77C700B36804 /* YCUIWebViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		487E55441C09A56A00B36804 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		487E55511C09A60A00B36804 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				487E55521C09A60A00B36804 /* Cell */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		487E55521C09A60A00B36804 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				487E55531C09A60A00B36804 /* CollectionViewCell.h */,
+				487E55541C09A60A00B36804 /* CollectionViewCell.m */,
+				487E55551C09A60A00B36804 /* CollectionViewCell.xib */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		D1C1001F1C05481B000D93D4 = {
+			isa = PBXGroup;
+			children = (
+				D1C1002A1C05481B000D93D4 /* YCRefreshControlDemo */,
+				D1C100291C05481B000D93D4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D1C100291C05481B000D93D4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D1C100281C05481B000D93D4 /* YCRefreshControlDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D1C1002A1C05481B000D93D4 /* YCRefreshControlDemo */ = {
+			isa = PBXGroup;
+			children = (
+				487E55511C09A60A00B36804 /* Views */,
+				487E55381C09A56A00B36804 /* AppDelegate */,
+				487E553B1C09A56A00B36804 /* Controllers */,
+				487E55441C09A56A00B36804 /* Model */,
+				D1C100421C054881000D93D4 /* YCRefreshControl */,
+				D1C100371C05481B000D93D4 /* Assets.xcassets */,
+				D1C100391C05481B000D93D4 /* LaunchScreen.storyboard */,
+				D1C1003C1C05481B000D93D4 /* Info.plist */,
+				D1C1002B1C05481B000D93D4 /* Supporting Files */,
+			);
+			path = YCRefreshControlDemo;
+			sourceTree = "<group>";
+		};
+		D1C1002B1C05481B000D93D4 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D1C1002C1C05481B000D93D4 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D1C100421C054881000D93D4 /* YCRefreshControl */ = {
+			isa = PBXGroup;
+			children = (
+				D1D757831C060D0300F6DB6D /* FrameAccessor */,
+				D1D7578E1C06A11700F6DB6D /* EXTScope */,
+				D1C100431C0562DD000D93D4 /* UIScrollView+YCRefresh.h */,
+				D1C100441C0562DD000D93D4 /* UIScrollView+YCRefresh.m */,
+				D1C100461C056562000D93D4 /* YCRefreshManager.h */,
+				D1C100471C056562000D93D4 /* YCRefreshManager.m */,
+				D1C100491C058EF3000D93D4 /* YCNormalRefreshView.h */,
+				D1C1004A1C058EF3000D93D4 /* YCNormalRefreshView.m */,
+				D1D7578B1C06155100F6DB6D /* YCSlimeRefreshView.h */,
+				D1D7578C1C06155100F6DB6D /* YCSlimeRefreshView.m */,
+				D1D757941C06E34E00F6DB6D /* YCRefreshDefine.h */,
+				D1D757951C06E34E00F6DB6D /* YCRefreshDefine.m */,
+				D1D757971C070ACA00F6DB6D /* YCCircleRefreshView.h */,
+				D1D757981C070ACA00F6DB6D /* YCCircleRefreshView.m */,
+				48A8FED01C092ED300C6001C /* YCRefreshControl.h */,
+			);
+			path = YCRefreshControl;
+			sourceTree = SOURCE_ROOT;
+		};
+		D1D757831C060D0300F6DB6D /* FrameAccessor */ = {
+			isa = PBXGroup;
+			children = (
+				D1D757851C060D0300F6DB6D /* ScrollViewFrameAccessor.h */,
+				D1D757861C060D0300F6DB6D /* ScrollViewFrameAccessor.m */,
+				D1D757871C060D0300F6DB6D /* ViewFrameAccessor.h */,
+				D1D757881C060D0300F6DB6D /* ViewFrameAccessor.m */,
+			);
+			path = FrameAccessor;
+			sourceTree = "<group>";
+		};
+		D1D7578E1C06A11700F6DB6D /* EXTScope */ = {
+			isa = PBXGroup;
+			children = (
+				D1D7578F1C06A11700F6DB6D /* EXTScope.h */,
+				D1D757901C06A11700F6DB6D /* EXTScope.m */,
+				D1D757911C06A11700F6DB6D /* metamacros.h */,
+			);
+			path = EXTScope;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D1C100271C05481B000D93D4 /* YCRefreshControlDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D1C1003F1C05481B000D93D4 /* Build configuration list for PBXNativeTarget "YCRefreshControlDemo" */;
+			buildPhases = (
+				D1C100241C05481B000D93D4 /* Sources */,
+				D1C100251C05481B000D93D4 /* Frameworks */,
+				D1C100261C05481B000D93D4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = YCRefreshControlDemo;
+			productName = YCRefreshControlDemo;
+			productReference = D1C100281C05481B000D93D4 /* YCRefreshControlDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D1C100201C05481B000D93D4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = "王广威";
+				TargetAttributes = {
+					D1C100271C05481B000D93D4 = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+				};
+			};
+			buildConfigurationList = D1C100231C05481B000D93D4 /* Build configuration list for PBXProject "YCRefreshControlDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D1C1001F1C05481B000D93D4;
+			productRefGroup = D1C100291C05481B000D93D4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D1C100271C05481B000D93D4 /* YCRefreshControlDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D1C100261C05481B000D93D4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D1C1003B1C05481B000D93D4 /* LaunchScreen.storyboard in Resources */,
+				D1C100381C05481B000D93D4 /* Assets.xcassets in Resources */,
+				487E55571C09A60A00B36804 /* CollectionViewCell.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D1C100241C05481B000D93D4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D1D757921C06A11700F6DB6D /* EXTScope.m in Sources */,
+				487E555A1C0A77C700B36804 /* YCUIWebViewController.m in Sources */,
+				487E554C1C09A56A00B36804 /* YCMainViewController.m in Sources */,
+				D1C100451C0562DD000D93D4 /* UIScrollView+YCRefresh.m in Sources */,
+				D1C1004B1C058EF3000D93D4 /* YCNormalRefreshView.m in Sources */,
+				D1D757961C06E34E00F6DB6D /* YCRefreshDefine.m in Sources */,
+				487E554E1C09A56A00B36804 /* YCTableViewController.m in Sources */,
+				487E55561C09A60A00B36804 /* CollectionViewCell.m in Sources */,
+				D1C1002D1C05481B000D93D4 /* main.m in Sources */,
+				487E554B1C09A56A00B36804 /* YCCollectionViewController.m in Sources */,
+				487E554D1C09A56A00B36804 /* YCScrollViewController.m in Sources */,
+				D1D7578D1C06155100F6DB6D /* YCSlimeRefreshView.m in Sources */,
+				D1D757991C070ACA00F6DB6D /* YCCircleRefreshView.m in Sources */,
+				D1C100481C056562000D93D4 /* YCRefreshManager.m in Sources */,
+				487E554A1C09A56A00B36804 /* AppDelegate.m in Sources */,
+				D1D757891C060D0300F6DB6D /* ScrollViewFrameAccessor.m in Sources */,
+				D1D7578A1C060D0300F6DB6D /* ViewFrameAccessor.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		D1C100391C05481B000D93D4 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D1C1003A1C05481B000D93D4 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D1C1003D1C05481B000D93D4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		D1C1003E1C05481B000D93D4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D1C100401C05481B000D93D4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = YCRefreshControlDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.1000phone.YCRefreshControlDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Debug;
+		};
+		D1C100411C05481B000D93D4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = YCRefreshControlDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.1000phone.YCRefreshControlDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D1C100231C05481B000D93D4 /* Build configuration list for PBXProject "YCRefreshControlDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1C1003D1C05481B000D93D4 /* Debug */,
+				D1C1003E1C05481B000D93D4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D1C1003F1C05481B000D93D4 /* Build configuration list for PBXNativeTarget "YCRefreshControlDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1C100401C05481B000D93D4 /* Debug */,
+				D1C100411C05481B000D93D4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D1C100201C05481B000D93D4 /* Project object */;
+}
