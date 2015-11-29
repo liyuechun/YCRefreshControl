@@ -6,6 +6,9 @@
 			    /___/
 
 项目贡献者：黎跃春 王广威
+联系方式：
+《iOS编程之美》技术讨论群：343640780
+ 新浪微博:http://weibo.com/mobiledevelopment
 使用说明：这是一款基于UIScrollView轻量级，易使用的上下拉刷新。
 1.下载YCRefreshControldemo，将demo中的YCRefreshControl文件夹直接拖拽到工程中，在pch文件或者您要使用上下拉下刷新的控制器中导入YCRefreshControl.h头文件
 
