@@ -1,24 +1,9 @@
 # YCRefreshControl
-===============================================================
 			   ___                   __
 			  / (_)_ ____ _____ ____/ /  __ _____
 			 / / / // / // / -_) __/ _ \/ // / _ \
 			/_/_/\_, /\_,_/\__/\__/_//_/\_,_/_//_/
 			    /___/
-
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝= = ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-     Created by 黎跃春 on 1314/05/20.
-     Copyright (c) 2015年 王广威. All rights reserved.
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝= = ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-    《iOS编程之美》技术讨论群：343640780
-     电子邮件:liyuechun2009@163.com
-     微信:Liyuechun2012
-     QQ:939442932[春哥]  1244357005[广威]
-     github:https://github.com/LiYueChun
-     简书地址:http://www.jianshu.com/users/336468483205/latest_articles
-     新浪微博:http://weibo.com/mobiledevelopment
-     新浪博客:http://blog.sina.com.cn/technicalarticle
-================================================================
 
 项目贡献者：黎跃春 王广威
 使用说明：这是一款基于UIScrollView轻量级，易使用的上下拉刷新。
@@ -30,7 +15,7 @@ UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64,
 	[self.view addSubview:scrollView];
 	[scrollView setContentSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height)];
 	@weakify(scrollView);
-	<!---->下拉时所触发的方法
+	
 	[scrollView setRefreshAction:^{
 		@strongify(scrollView);
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
