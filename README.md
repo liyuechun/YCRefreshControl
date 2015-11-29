@@ -9,7 +9,7 @@
 
 2.技术讨论群：343640780
 
-3.UIScrollView实用方法
+3.UIScrollView（UITableView，UICollectionView）使用方法
 	UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, WScreenWidth, WScreenHeight)];
     self.scrollView = scrollView;
 	[self.view addSubview:scrollView];
