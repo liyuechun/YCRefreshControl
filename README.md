@@ -1,20 +1,29 @@
 # YCRefreshControl
-			   ___                   __
-			  / (_)_ ____ _____ ____/ /  __ _____
-			 / / / // / // / -_) __/ _ \/ // / _ \
-			/_/_/\_, /\_,_/\__/\__/_//_/\_,_/_//_/
-			    /___/
 
-1.项目贡献者：黎跃春 & 王广威
 
-2.技术讨论群：343640780
+               ___                   __
+              / (_)_ ____ _____ ____/ /  __ _____
+             / / / // / // / -_) __/ _ \/ // / _ \
+            /_/_/\_, /\_,_/\__/\__/_//_/\_,_/_//_/
+                /___/
 
-3.UIScrollView（UITableView，UICollectionView）的使用方法
-    UITableView和UICollectionView都是UIScrollView的子类，直接将上面的scrollView对象换成UITableView或者UICollectionView的对象即可，当手动下拉时就会触发块方法。
 
-UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, WScreenWidth, WScreenHeight)];
+##YCRefreshControl是什么?
+这是一款基于UIScrollView的轻量级，简易的的零配置的上下拉刷新控件。
+
+##YCRefreshControl使用方法？
+
+* 下载demo，直接将YCRefreshControl文件夹拖拽到工程中，在您要使用刷新的控制器里面直接导入YCRefreshControl.h头文件即可。
+
+
+* 因为UICollectionView，UITableView都是UIScrollView的子类，所以UIScrollView，UICollectionView，UITableView的使用方法一样
+<html>
+
+       
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, WScreenWidth, WScreenHeight)];
     self.scrollView = scrollView;
     [self.view addSubview:scrollView];
+
     [scrollView setContentSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height)];
     @weakify(scrollView);
     [scrollView setRefreshAction:^{
@@ -25,19 +34,16 @@ UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64,
         });
     }];
 
+</html>
+
+* UIWebView不是UIScrollView的子类，但是UIWebView有一个scrollView属性， UIWebView的使用方法如下。
 
 
-4.UIWebView的使用方法
-
-
-UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 64, WScreenWidth, WScreenHeight - 64)];
-    [self.view addSubview:webView];
-    
-    UIScrollView *scrollView = webView.scrollView;
-    _initArray = @[@"https://github.com/LiYueChun", @"http://www.jianshu.com/users/336468483205/latest_articles", @"http://weibo.com/mobiledevelopment", @"http://blog.sina.com.cn/technicalarticle"];
-    @weakify(scrollView);
-    @weakify(webView);
-    [scrollView setRefreshAction:^{
+     UIScrollView *scrollView = webView.scrollView;
+     _initArray = @[@"https://github.com/LiYueChun", @"http://www.jianshu.com/users/336468483205/latest_articles", @"http://weibo.com/mobiledevelopment", @"http://blog.sina.com.cn/technicalarticle"];
+     @weakify(scrollView);
+     @weakify(webView);
+     [scrollView setRefreshAction:^{
         @strongify(scrollView);
         @strongify(webView);
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -47,16 +53,47 @@ UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 64, WScreenW
             NSURLRequest *request = [NSURLRequest requestWithURL:url];
             [webView loadRequest:request];
             [scrollView endRefresh];
-        });
-    }];
+        }); 
+        }];
+        
+        NSString *path = @"http://weibo.com/mobiledevelopment";
+        NSURL *url = [NSURL URLWithString:path];
+        NSURLRequest *request = [NSURLRequest requestWithURL:url];
+        [webView loadRequest:request];
+    
+##有问题反馈
+在使用中有任何问题，欢迎反馈给我，可以用以下联系方式跟我交流
 
-    NSString *path = @"http://weibo.com/mobiledevelopment";
-    NSURL *url = [NSURL URLWithString:path];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    [webView loadRequest:request];
+* 邮件:(liyuechun2009@163.com)
+* QQ群: 343640780
+* weibo: [@千锋教育黎跃春](http://weibo.com/mobiledevelopment)
+
+##您的鼓励是我前进的动力
+在兴趣的驱动下,写一个`免费`的东西，有欣喜，也还有汗水，希望你喜欢我的作品，同时也能支持一下。有钱的捧个钱场，没钱的回家拿钱捧个钱场，star一下。
 
 
-5.UIScrollView（UITableView，UICollectionView），UIWebView的上下拉刷新详见Demo
+##项目贡献者
+
+
+<table border = '1' height = '80'>
+    <tr align = 'center'>
+        <td width = '120'>项目贡献者</td>
+        <td width = '120'>联系QQ</td>
+    </tr>
+    <tr align = 'center'>
+        <td width = '120'>黎跃春[笑傲人生]</td>
+        <td width = '120'>939442932</td>
+    </tr>
+    <tr align = 'center'>
+        <td width = '120'>王广威</td>
+        <td width = '120'>524968369</td>
+    </tr>
+</table>
+
+
+
+
+
 
 
 
