@@ -20,14 +20,15 @@
 
     
     
-    
-       @weakify(scrollView);
-       [scrollView setRefreshAction:^{
+        UIScrollView *scrollView = nil;  
+        [scrollView setRefreshAction:^{
          @strongify(scrollView);
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
                 [scrollView endRefresh];
             });
-       }];
+        }];
+       
     
 
 * UIWebView不是UIScrollView的子类，但是UIWebView有一个scrollView属性， UIWebView的使用方法如下。
