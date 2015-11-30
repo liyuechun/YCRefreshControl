@@ -17,31 +17,31 @@
 
 
 * 因为UICollectionView，UITableView都是UIScrollView的子类，所以UIScrollView，UICollectionView，UITableView的使用方法一样
-<html>
 
-       
-    @weakify(scrollView);
-    [scrollView setRefreshAction:^{
-        @strongify(scrollView);
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [scrollView endRefresh];
-        });
-    }];
-
-</html>
+    
+    
+    
+       @weakify(scrollView);
+       [scrollView setRefreshAction:^{
+         @strongify(scrollView);
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [scrollView endRefresh];
+            });
+       }];
+    
 
 * UIWebView不是UIScrollView的子类，但是UIWebView有一个scrollView属性， UIWebView的使用方法如下。
 
 
-     UIScrollView *scrollView = webView.scrollView;
-     [scrollView setRefreshAction:^{
-        @strongify(scrollView);
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            [scrollView endRefresh];
-        }); 
-        }];
-        
+        UIScrollView *scrollView = webView.scrollView;  
+        [scrollView setRefreshAction:^{
+         @strongify(scrollView);
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                [scrollView endRefresh];
+            });
+       }];
+
 ##有问题反馈
 在使用中有任何问题，欢迎反馈给我，可以用以下联系方式跟我交流
 
