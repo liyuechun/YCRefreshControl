@@ -10,21 +10,21 @@
 2.技术讨论群：343640780
 
 3.UIScrollView（UITableView，UICollectionView）的使用方法
+    UITableView和UICollectionView都是UIScrollView的子类，直接将上面的scrollView对象换成UITableView或者UICollectionView的对象即可，当手动下拉时就会触发块方法。
 
 UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, WScreenWidth, WScreenHeight)];
     self.scrollView = scrollView;
-	[self.view addSubview:scrollView];
-	[scrollView setContentSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height)];
-	@weakify(scrollView);
-	[scrollView setRefreshAction:^{
-		@strongify(scrollView);
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-			self.view.backgroundColor = WArcColor;
-			[scrollView endRefresh];
-		});
-	}];
+    [self.view addSubview:scrollView];
+    [scrollView setContentSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height)];
+    @weakify(scrollView);
+    [scrollView setRefreshAction:^{
+        @strongify(scrollView);
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            self.view.backgroundColor = WArcColor;
+            [scrollView endRefresh];
+        });
+    }];
 
-UITableView和UICollectionView都是UIScrollView的子类，直接将上面的scrollView对象换成UITableView或者UICollectionView的对象即可，当手动下拉时就会触发块方法。
 
 
 4.UIWebView的使用方法
