@@ -74,8 +74,8 @@
 
 ##项目贡献者
 
-
-<table border = '1' height = '80' align = 'left' width = '300'>
+<html>
+<table border = '1' height = '150' align = 'left' width = '300'>
     <tr align = 'center'>
         <td width = '150'>项目贡献者</td>
         <td width = '150'>联系QQ</td>
@@ -89,12 +89,4 @@
         <td width = '150'>524968369</td>
     </tr>
 </table>
-
-
-
-
-
-
-
-
-
+</html>
