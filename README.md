@@ -74,19 +74,27 @@
 
 ##项目贡献者
 
-<html>
-<table border = '1' height = '150' align = 'left' width = '300'>
-    <tr align = 'center'>
-        <td width = '150'>项目贡献者</td>
-        <td width = '150'>联系QQ</td>
+
+<table border = '1'>
+    <tr align = 'center' height = '50'>
+        <td width = '150' height = '50'>项目贡献者</td>
+        <td width = '150' height = '50'>联系QQ</td>
     </tr>
-    <tr align = 'center'>
-        <td width = '150'>黎跃春[笑傲人生]</td>
-        <td width = '150'>939442932</td>
+    <tr align = 'center' height = '50'>
+        <td width = '150' height = '50'>黎跃春[笑傲人生]</td>
+        <td width = '150' height = '50'>939442932</td>
     </tr>
-    <tr align = 'center'>
-        <td width = '150'>王广威</td>
-        <td width = '150'>524968369</td>
+    <tr align = 'center' height = '50'>
+        <td width = '150' height = '50'>王广威</td>
+        <td width = '150' height = '50'>524968369</td>
     </tr>
 </table>
-</html>
+
+
+
+
+
+
+
+
+
