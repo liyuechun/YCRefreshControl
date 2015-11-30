@@ -60,7 +60,7 @@
 ##项目贡献者
 
 
-<table border = '1'>
+<table>
     <tr align = 'center' height = '50'>
         <td width = '150' height = '50'>项目贡献者</td>
         <td width = '150' height = '50'>联系QQ</td>
