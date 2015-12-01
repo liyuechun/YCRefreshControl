@@ -11,6 +11,10 @@
 ##YCRefreshControl是什么?
 这是一款基于UIScrollView的轻量级，简易的的零配置的上下拉刷新控件。
 
+##YCRefreshControl效果展示
+
+<img src="gif/YCRefresh.gif"/>
+
 ##YCRefreshControl使用方法？
 
 * 下载demo，直接将YCRefreshControl文件夹拖拽到工程中，在您要使用刷新的控制器里面直接导入YCRefreshControl.h头文件即可。
