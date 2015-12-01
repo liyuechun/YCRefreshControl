@@ -24,7 +24,7 @@
 
 
         [scrollView setRefreshAction:^{
-        //拖动触发
+              //拖动触发或者手动触发
         }];
        
     
@@ -35,7 +35,7 @@
         UIScrollView *scrollView = webView.scrollView;  
         
         [scrollView setRefreshAction:^{
-           //拖动触发
+              //拖动触发或者手动触发
         }];
        
 
