@@ -22,12 +22,9 @@
 
 * 因为UICollectionView，UITableView都是UIScrollView的子类，所以UIScrollView，UICollectionView，UITableView的使用方法一样
 
-    
-    
-         
+
         [scrollView setRefreshAction:^{
-        
-            
+        //拖动触发
         }];
        
     
@@ -38,7 +35,7 @@
         UIScrollView *scrollView = webView.scrollView;  
         
         [scrollView setRefreshAction:^{
-           
+           //拖动触发
         }];
        
 
