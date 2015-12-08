@@ -20,13 +20,19 @@
 //================================================================
 
 #import <Foundation/Foundation.h>
-@class UIScrollView;
+#import <UIKit/UIKit.h>
+#import "YCRefreshDefine.h"
 
 @interface YCRefreshManager : NSObject
 
 - (instancetype)initWithScrollView:(UIScrollView *)scrollView;
 
+@property (nonatomic, copy) YCAction refreshAction;
 - (void)beginRefresh;
 - (void)endRefresh;
+
+@property (nonatomic, copy) YCAction loadmoreAction;
+- (void)endLoadmore;
+- (void)setNoMoreData:(BOOL)noData;
 
 @end

@@ -20,13 +20,8 @@
 		D1C1003B1C05481B000D93D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1C100391C05481B000D93D4 /* LaunchScreen.storyboard */; };
 		D1C100451C0562DD000D93D4 /* UIScrollView+YCRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = D1C100441C0562DD000D93D4 /* UIScrollView+YCRefresh.m */; };
 		D1C100481C056562000D93D4 /* YCRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D1C100471C056562000D93D4 /* YCRefreshManager.m */; };
-		D1C1004B1C058EF3000D93D4 /* YCNormalRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1C1004A1C058EF3000D93D4 /* YCNormalRefreshView.m */; };
-		D1D757891C060D0300F6DB6D /* ScrollViewFrameAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = D1D757861C060D0300F6DB6D /* ScrollViewFrameAccessor.m */; };
-		D1D7578A1C060D0300F6DB6D /* ViewFrameAccessor.m in Sources */ = {isa = PBXBuildFile; fileRef = D1D757881C060D0300F6DB6D /* ViewFrameAccessor.m */; };
 		D1D7578D1C06155100F6DB6D /* YCSlimeRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1D7578C1C06155100F6DB6D /* YCSlimeRefreshView.m */; };
-		D1D757921C06A11700F6DB6D /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = D1D757901C06A11700F6DB6D /* EXTScope.m */; };
-		D1D757961C06E34E00F6DB6D /* YCRefreshDefine.m in Sources */ = {isa = PBXBuildFile; fileRef = D1D757951C06E34E00F6DB6D /* YCRefreshDefine.m */; };
-		D1D757991C070ACA00F6DB6D /* YCCircleRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1D757981C070ACA00F6DB6D /* YCCircleRefreshView.m */; };
+		D1E83AFC1C16CC0900AEC344 /* YCNormalLoadmoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1E83AFB1C16CC0900AEC344 /* YCNormalLoadmoreView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,7 +40,6 @@
 		487E55551C09A60A00B36804 /* CollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
 		487E55581C0A77C700B36804 /* YCUIWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCUIWebViewController.h; sourceTree = "<group>"; };
 		487E55591C0A77C700B36804 /* YCUIWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCUIWebViewController.m; sourceTree = "<group>"; };
-		48A8FED01C092ED300C6001C /* YCRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCRefreshControl.h; sourceTree = "<group>"; };
 		D1C100281C05481B000D93D4 /* YCRefreshControlDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YCRefreshControlDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1C1002C1C05481B000D93D4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D1C100371C05481B000D93D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -55,21 +49,12 @@
 		D1C100441C0562DD000D93D4 /* UIScrollView+YCRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+YCRefresh.m"; sourceTree = "<group>"; };
 		D1C100461C056562000D93D4 /* YCRefreshManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCRefreshManager.h; sourceTree = "<group>"; };
 		D1C100471C056562000D93D4 /* YCRefreshManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCRefreshManager.m; sourceTree = "<group>"; };
-		D1C100491C058EF3000D93D4 /* YCNormalRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCNormalRefreshView.h; sourceTree = "<group>"; };
-		D1C1004A1C058EF3000D93D4 /* YCNormalRefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCNormalRefreshView.m; sourceTree = "<group>"; };
-		D1D757851C060D0300F6DB6D /* ScrollViewFrameAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollViewFrameAccessor.h; sourceTree = "<group>"; };
-		D1D757861C060D0300F6DB6D /* ScrollViewFrameAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollViewFrameAccessor.m; sourceTree = "<group>"; };
-		D1D757871C060D0300F6DB6D /* ViewFrameAccessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewFrameAccessor.h; sourceTree = "<group>"; };
-		D1D757881C060D0300F6DB6D /* ViewFrameAccessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewFrameAccessor.m; sourceTree = "<group>"; };
 		D1D7578B1C06155100F6DB6D /* YCSlimeRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCSlimeRefreshView.h; sourceTree = "<group>"; };
 		D1D7578C1C06155100F6DB6D /* YCSlimeRefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCSlimeRefreshView.m; sourceTree = "<group>"; };
-		D1D7578F1C06A11700F6DB6D /* EXTScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTScope.h; sourceTree = "<group>"; };
-		D1D757901C06A11700F6DB6D /* EXTScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTScope.m; sourceTree = "<group>"; };
-		D1D757911C06A11700F6DB6D /* metamacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = metamacros.h; sourceTree = "<group>"; };
 		D1D757941C06E34E00F6DB6D /* YCRefreshDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCRefreshDefine.h; sourceTree = "<group>"; };
-		D1D757951C06E34E00F6DB6D /* YCRefreshDefine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCRefreshDefine.m; sourceTree = "<group>"; };
-		D1D757971C070ACA00F6DB6D /* YCCircleRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCCircleRefreshView.h; sourceTree = "<group>"; };
-		D1D757981C070ACA00F6DB6D /* YCCircleRefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCCircleRefreshView.m; sourceTree = "<group>"; };
+		D1E83AFA1C16CC0900AEC344 /* YCNormalLoadmoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCNormalLoadmoreView.h; sourceTree = "<group>"; };
+		D1E83AFB1C16CC0900AEC344 /* YCNormalLoadmoreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCNormalLoadmoreView.m; sourceTree = "<group>"; };
+		D1E83AFE1C17467F00AEC344 /* YCRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCRefreshControl.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,45 +162,19 @@
 		D1C100421C054881000D93D4 /* YCRefreshControl */ = {
 			isa = PBXGroup;
 			children = (
-				D1D757831C060D0300F6DB6D /* FrameAccessor */,
-				D1D7578E1C06A11700F6DB6D /* EXTScope */,
+				D1E83AFE1C17467F00AEC344 /* YCRefreshControl.h */,
+				D1D757941C06E34E00F6DB6D /* YCRefreshDefine.h */,
 				D1C100431C0562DD000D93D4 /* UIScrollView+YCRefresh.h */,
 				D1C100441C0562DD000D93D4 /* UIScrollView+YCRefresh.m */,
 				D1C100461C056562000D93D4 /* YCRefreshManager.h */,
 				D1C100471C056562000D93D4 /* YCRefreshManager.m */,
-				D1C100491C058EF3000D93D4 /* YCNormalRefreshView.h */,
-				D1C1004A1C058EF3000D93D4 /* YCNormalRefreshView.m */,
 				D1D7578B1C06155100F6DB6D /* YCSlimeRefreshView.h */,
 				D1D7578C1C06155100F6DB6D /* YCSlimeRefreshView.m */,
-				D1D757941C06E34E00F6DB6D /* YCRefreshDefine.h */,
-				D1D757951C06E34E00F6DB6D /* YCRefreshDefine.m */,
-				D1D757971C070ACA00F6DB6D /* YCCircleRefreshView.h */,
-				D1D757981C070ACA00F6DB6D /* YCCircleRefreshView.m */,
-				48A8FED01C092ED300C6001C /* YCRefreshControl.h */,
+				D1E83AFA1C16CC0900AEC344 /* YCNormalLoadmoreView.h */,
+				D1E83AFB1C16CC0900AEC344 /* YCNormalLoadmoreView.m */,
 			);
 			path = YCRefreshControl;
 			sourceTree = SOURCE_ROOT;
-		};
-		D1D757831C060D0300F6DB6D /* FrameAccessor */ = {
-			isa = PBXGroup;
-			children = (
-				D1D757851C060D0300F6DB6D /* ScrollViewFrameAccessor.h */,
-				D1D757861C060D0300F6DB6D /* ScrollViewFrameAccessor.m */,
-				D1D757871C060D0300F6DB6D /* ViewFrameAccessor.h */,
-				D1D757881C060D0300F6DB6D /* ViewFrameAccessor.m */,
-			);
-			path = FrameAccessor;
-			sourceTree = "<group>";
-		};
-		D1D7578E1C06A11700F6DB6D /* EXTScope */ = {
-			isa = PBXGroup;
-			children = (
-				D1D7578F1C06A11700F6DB6D /* EXTScope.h */,
-				D1D757901C06A11700F6DB6D /* EXTScope.m */,
-				D1D757911C06A11700F6DB6D /* metamacros.h */,
-			);
-			path = EXTScope;
-			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -287,23 +246,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D1D757921C06A11700F6DB6D /* EXTScope.m in Sources */,
+				D1E83AFC1C16CC0900AEC344 /* YCNormalLoadmoreView.m in Sources */,
 				487E555A1C0A77C700B36804 /* YCUIWebViewController.m in Sources */,
 				487E554C1C09A56A00B36804 /* YCMainViewController.m in Sources */,
 				D1C100451C0562DD000D93D4 /* UIScrollView+YCRefresh.m in Sources */,
-				D1C1004B1C058EF3000D93D4 /* YCNormalRefreshView.m in Sources */,
-				D1D757961C06E34E00F6DB6D /* YCRefreshDefine.m in Sources */,
 				487E554E1C09A56A00B36804 /* YCTableViewController.m in Sources */,
 				487E55561C09A60A00B36804 /* CollectionViewCell.m in Sources */,
 				D1C1002D1C05481B000D93D4 /* main.m in Sources */,
 				487E554B1C09A56A00B36804 /* YCCollectionViewController.m in Sources */,
 				487E554D1C09A56A00B36804 /* YCScrollViewController.m in Sources */,
 				D1D7578D1C06155100F6DB6D /* YCSlimeRefreshView.m in Sources */,
-				D1D757991C070ACA00F6DB6D /* YCCircleRefreshView.m in Sources */,
 				D1C100481C056562000D93D4 /* YCRefreshManager.m in Sources */,
 				487E554A1C09A56A00B36804 /* AppDelegate.m in Sources */,
-				D1D757891C060D0300F6DB6D /* ScrollViewFrameAccessor.m in Sources */,
-				D1D7578A1C060D0300F6DB6D /* ViewFrameAccessor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,6 +292,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -360,6 +315,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -381,6 +337,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -396,6 +353,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

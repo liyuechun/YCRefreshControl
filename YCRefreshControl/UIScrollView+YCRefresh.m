@@ -24,101 +24,32 @@
 
 #import "YCRefreshManager.h"
 #import "YCSlimeRefreshView.h"
+#import "YCNormalLoadmoreView.h"
 
-static const void *YCRefreshActionKey = &"YCRefreshActionKey";
-static const void *YCLoadmoreActionKey = &"YCLoadmoreActionKey";
 static const void *YCRefreshManagerKey = &"YCRefreshManagerKey";
 static const void *YCRefreshViewKey = &"YCRefreshViewKey";
+static const void *YCLoadmoreViewKey = &"YCLoadmoreViewKey";
 
 @interface UIScrollView ()
-
-@property (nonatomic, copy) YCAction refreshAction;
-@property (nonatomic, copy) YCAction loadmoreAction;
-@property (nonatomic, retain, readonly) YCRefreshManager *refreshManager;
+@property (nonatomic, retain, readonly) YCRefreshManager *yc_refreshManager;
 
 @end
 
 @implementation UIScrollView (YCRefresh)
+@dynamic yc_refreshView, yc_loadmoreView;
 
-@dynamic refreshAction;
-@dynamic loadmoreAction;
-
-+ (void)load {
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		Class class = [self class];
-		// When swizzling a class method, use the following:
-		// Class class = object_getClass((id)self);
-		
-		SEL originalSelector = @selector(willMoveToSuperview:);
-		SEL swizzledSelector = @selector(yc_willMoveToSuperview:);
-		
-		Method originalMethod = class_getInstanceMethod(class, originalSelector);
-		Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
-		
-		BOOL didAddMethod =
-		class_addMethod(class,
-						originalSelector,
-						method_getImplementation(swizzledMethod),
-						method_getTypeEncoding(swizzledMethod));
-		
-		if (didAddMethod) {
-			class_replaceMethod(class,
-								swizzledSelector,
-								method_getImplementation(originalMethod),
-								method_getTypeEncoding(originalMethod));
-		} else {
-			method_exchangeImplementations(originalMethod, swizzledMethod);
-		}
-	});
-}
-- (void)yc_willMoveToSuperview:(UIView *)superView {
-	[self yc_willMoveToSuperview:superView];
-	[self configRefreshManager];
-}
-
-- (YCAction)refreshAction {
-	return objc_getAssociatedObject(self, &YCRefreshActionKey);
-}
-- (YCAction)loadmoreAction {
-	return objc_getAssociatedObject(self, &YCLoadmoreActionKey);
-}
-- (YCRefreshManager *)refreshManager {
+- (YCRefreshManager *)yc_refreshManager {
 	return objc_getAssociatedObject(self, &YCRefreshManagerKey);
 }
-- (UIView<YCRefreshViewDelegate> *)refreshView {
+- (UIView<YCRefreshViewDelegate> *)yc_refreshView {
 	return objc_getAssociatedObject(self, &YCRefreshViewKey);
 }
+- (UIView<YCLoadmoreViewDelegate> *)yc_loadmoreView {
+	return objc_getAssociatedObject(self, &YCLoadmoreViewKey);
+}
 
-- (void)setLoadmoreAction:(YCAction)loadmoreAction {
-	if (loadmoreAction != self.loadmoreAction) {
-		objc_setAssociatedObject(self,
-								 &YCLoadmoreActionKey,
-								 loadmoreAction,
-								 OBJC_ASSOCIATION_COPY_NONATOMIC);
-	}
-}
-- (void)setRefreshAction:(YCAction)refreshAction {
-	if (refreshAction != self.refreshAction) {
-		objc_setAssociatedObject(self,
-								 &YCRefreshActionKey,
-								 refreshAction,
-								 OBJC_ASSOCIATION_COPY_NONATOMIC);
-	}
-}
-- (void)setRefreshView:(UIView<YCRefreshViewDelegate> *)refreshView {
-	if (![refreshView isEqual:self.refreshView]) {
-		[self.refreshView removeFromSuperview];
-	
-		objc_setAssociatedObject(self,
-								 &YCRefreshViewKey,
-								 refreshView,
-								 OBJC_ASSOCIATION_RETAIN);
-		[self addSubview:refreshView];
-	}
-}
 - (void)configRefreshManager {
-	if (!self.refreshManager) {
+	if (!self.yc_refreshManager) {
 		YCRefreshManager *refreshManager = [[YCRefreshManager alloc] initWithScrollView:self];
 		objc_setAssociatedObject(self,
 								 &YCRefreshManagerKey,
@@ -126,12 +57,73 @@ static const void *YCRefreshViewKey = &"YCRefreshViewKey";
 								 OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 	}
 }
-
-- (void)beginRefresh {
-	[self.refreshManager beginRefresh];
+- (void)setYc_refreshView:(UIView<YCRefreshViewDelegate> *)refreshView {
+	if (![refreshView isEqual:self.yc_refreshView]) {
+		[self.yc_refreshView removeFromSuperview];
+	
+		objc_setAssociatedObject(self,
+								 &YCRefreshViewKey,
+								 refreshView,
+								 OBJC_ASSOCIATION_RETAIN);
+		refreshView.frame = CGRectMake(0, -[refreshView totalHeight], self.frame.size.width, [refreshView totalHeight]);
+		[self addSubview:refreshView];
+	}
 }
-- (void)endRefresh {
-	[self.refreshManager endRefresh];
+- (void)setYc_loadmoreView:(UIView<YCLoadmoreViewDelegate> *)loadmoreView {
+	UIEdgeInsets newInset = self.contentInset;
+	if (self.yc_loadmoreView) {
+		newInset.bottom -= [self.yc_loadmoreView loadmoreHeight];
+	}
+	newInset.bottom += [loadmoreView loadmoreHeight];
+	self.contentInset = newInset;
+	if (![loadmoreView isEqual:self.yc_loadmoreView]) {
+		[self.yc_loadmoreView removeFromSuperview];
+		
+		objc_setAssociatedObject(self,
+								 &YCLoadmoreViewKey,
+								 loadmoreView,
+								 OBJC_ASSOCIATION_RETAIN);
+		loadmoreView.frame = CGRectMake(0, self.contentSize.height, self.frame.size.width, [loadmoreView loadmoreHeight]);
+		
+		[self addSubview:loadmoreView];
+	}
+}
+
+- (void)yc_setRefreshAction:(YCAction)refreshAction {
+	[self configRefreshManager];
+	self.yc_refreshManager.refreshAction = refreshAction;
+	[self initRefreshView];
+}
+- (void)yc_setLoadmoreAction:(YCAction)loadmoreAction {
+	[self configRefreshManager];
+	self.yc_refreshManager.loadmoreAction = loadmoreAction;
+	[self initLoadmoreView];
+}
+
+// 如果没有设置自定义的 refreshView，提供默认的一个
+- (void)initRefreshView {
+	if (!self.yc_refreshView) {
+		self.yc_refreshView = [[YCSlimeRefreshView alloc] init];
+	}
+}
+// 如果没有设置自定义的 loadmoreView，提供默认的一个
+- (void)initLoadmoreView {
+	if (!self.yc_loadmoreView) {
+		self.yc_loadmoreView = [[YCNormalLoadmoreView alloc] init];
+	}
+}
+- (void)yc_beginRefresh {
+	[self.yc_refreshManager beginRefresh];
+}
+- (void)yc_endRefresh {
+	[self.yc_refreshManager endRefresh];
+}
+
+- (void)yc_endLoadmore {
+	[self.yc_refreshManager endLoadmore];
+}
+- (void)yc_setNoMoreData:(BOOL)noData {
+	[self.yc_refreshManager setNoMoreData:noData];
 }
 
 @end

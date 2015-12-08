@@ -22,7 +22,7 @@
 #import "YCSlimeRefreshView.h"
 #import "YCRefreshDefine.h"
 
-#define kOpenedViewHeight   44
+#define kOpenedViewHeight   60
 #define kMinTopPadding      6
 #define kMaxTopPadding      6
 #define kMinTopRadius       8
@@ -36,6 +36,7 @@
 #define kMinArrowRadius     4
 #define kMaxArrowRadius     6
 #define kMaxDistance        44
+#define kActivityFollowTop NO
 
 #define kTotalViewHeight    (kMaxTopPadding + kMaxBottomPadding + kMaxTopRadius + kMaxBottomRadius + kMaxDistance)
 
@@ -48,48 +49,45 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
 	CAShapeLayer *_shapeLayer;
 	CAShapeLayer *_arrowLayer;
 	CAShapeLayer *_highlightLayer;
-	UILabel *_tipLabel;
 	UIActivityIndicatorView *_activity;
+	UILabel *_tipLabel;
 	BOOL _refreshing;
-	BOOL _canRefresh;
-	CGFloat _lastOffsetY;
 }
 
-@property (nonatomic, getter=isRefreshing) BOOL refreshing;
 @property (nonatomic, strong) UIColor *tintColor UI_APPEARANCE_SELECTOR;
 @property (nonatomic, assign) UIActivityIndicatorViewStyle activityIndicatorViewStyle UI_APPEARANCE_SELECTOR;
 @property (nonatomic, strong) UIColor *activityIndicatorViewColor UI_APPEARANCE_SELECTOR;
-@property (nonatomic, assign) UIEdgeInsets originalContentInset;
 
 @end
 
 @implementation YCSlimeRefreshView
 
 - (instancetype)initWithFrame:(CGRect)frame {
-	if (self = [super initWithFrame:CGRectMake(0, -kTotalViewHeight, WScreenWidth, kTotalViewHeight)]) {
+	if (self = [super initWithFrame:frame]) {
 		_refreshing = NO;
-		_canRefresh = YES;
 //		self.backgroundColor = WArcColor;
 		self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+		_tintColor = [UIColor colorWithRed:155.0 / 255.0 green:162.0 / 255.0 blue:172.0 / 255.0 alpha:1.0];
 		[self initTipLabel];
 		[self initShapeLayer];
 		[self initArrowLayer];
+		[self initHightLayer];
 		[self initActivityView];
 	}
 	return self;
 }
 - (void)initTipLabel {
-	_tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, kTotalViewHeight - 26, WScreenWidth, 20)];
+	_tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, kTotalViewHeight - 20, WScreenWidth, 20)];
 	_tipLabel.font = [UIFont systemFontOfSize:14];
 	_tipLabel.textAlignment = NSTextAlignmentCenter;
+	_tipLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
 	_tipLabel.textColor = [UIColor colorWithRed:0.349 green:0.368 blue:0.389 alpha:1.000];
-	_tipLabel.center = CGPointMake(WScreenWidth / 2.f, kTotalViewHeight - 16);
+	_tipLabel.center = CGPointMake(WScreenWidth / 2.f, kTotalViewHeight - _tipLabel.frame.size.height / 2 - kMinBottomPadding);
+	
 	[self addSubview:_tipLabel];
 	
 }
 - (void)initShapeLayer {
-	_tintColor = [UIColor colorWithRed:155.0 / 255.0 green:162.0 / 255.0 blue:172.0 / 255.0 alpha:1.0];
-	
 	_shapeLayer = [CAShapeLayer layer];
 	_shapeLayer.fillColor = [_tintColor CGColor];
 	_shapeLayer.strokeColor = [[[UIColor darkGrayColor] colorWithAlphaComponent:0.5] CGColor];
@@ -114,12 +112,8 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
 }
 - (void)initActivityView {
 	_activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-	_activity.center = CGPointMake(floor(self.frame.size.width / 2), floor(self.frame.size.height / 2));
+	_activity.center = CGPointMake(floor(self.frame.size.width / 2), kTotalViewHeight - 40);
 	_activity.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-	_activity.alpha = 0;
-	if ([_activity respondsToSelector:@selector(startAnimating)]) {
-		[(UIActivityIndicatorView *)_activity startAnimating];
-	}
 	[self addSubview:_activity];
 }
 
@@ -129,42 +123,16 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
 }
 
 - (CGFloat)refreshHeight {
-	return kOpenedViewHeight + 23;
+	return kOpenedViewHeight;
 }
 - (CGFloat)totalHeight {
 	return kTotalViewHeight;
 }
 -(void)scrollView:(UIScrollView *)scrollView changeContentOffset:(NSDictionary *)change {
-	CGFloat offset = scrollView.contentOffset.y;
-//	NSLog(@"%f", offset);
-	if (!_canRefresh) {
-		_canRefresh = offset >= -[self refreshHeight];
-		return;
-	}
-//	NSLog(@"refresh");
-	if (_refreshing) {
-		offset += [self refreshHeight];
-//		NSLog(@"%f, %f, %f", offset, offset + self.frame.size.height + floor([self refreshHeight] / 2) - 26, self.frame.size.height - [self refreshHeight] / 2);
-		_tipLabel.center = CGPointMake(self.frame.size.width / 2, MIN(offset + self.frame.size.height + floor([self refreshHeight] / 2) - 6, self.frame.size.height - [self refreshHeight] / 2) + 18);
-		_activity.center = CGPointMake(_tipLabel.center.x, _tipLabel.center.y - 24);
-		return;
-	}else {
-		BOOL dontDraw = NO;
-		if (_lastOffsetY > offset && !scrollView.isTracking) {
-			// If we are scrolling too fast, don't draw, and don't trigger unless the scrollView bounced back
-			dontDraw = YES;
-		}
-		if (dontDraw) {
-			_shapeLayer.path = nil;
-			_shapeLayer.shadowPath = nil;
-			_arrowLayer.path = nil;
-			_highlightLayer.path = nil;
-			_lastOffsetY = offset;
-			return;
-		}
-	}
-	_lastOffsetY = offset;
-	offset += scrollView.contentInset.top;
+	CGFloat offset = scrollView.contentOffset.y + scrollView.contentInset.top;
+	
+	if (_refreshing) return;
+	
 	BOOL triggered = NO;
 	
 	CGMutablePathRef path = CGPathCreateMutable();
@@ -214,17 +182,10 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
 	
 	if (!triggered) {
 		// Set paths
-//		NSLog(@"%f", offset);
-//		CGFloat opacity = -offset / [self refreshHeight] + 0.25;
-//		_shapeLayer.opacity = opacity;
-//		_arrowLayer.opacity = opacity;
-//		_highlightLayer.opacity = opacity;
-		
 		_shapeLayer.path = path;
 		_shapeLayer.shadowPath = path;
 		
 		// Add the arrow shape
-		
 		CGFloat currentArrowSize = lerp(kMinArrowSize, kMaxArrowSize, percentage);
 		CGFloat currentArrowRadius = lerp(kMinArrowRadius, kMaxArrowRadius, percentage);
 		CGFloat arrowBigRadius = currentArrowRadius + (currentArrowSize / 2);
@@ -288,56 +249,62 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
 		[_arrowLayer addAnimation:alphaAnimation forKey:nil];
 		[_highlightLayer addAnimation:alphaAnimation forKey:nil];
 		
-		// 动画展示 activity
-		[_activity startAnimating];
-		_activity.alpha = 1;
-		_activity.layer.transform = CATransform3DIdentity;
-		CAKeyframeAnimation *aniamtion = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
-		
-		aniamtion.values = [NSArray arrayWithObjects:
-							[NSValue valueWithCATransform3D:
-							 CATransform3DRotate(CATransform3DMakeScale(0.01, 0.01, 0.1),
-												 -M_PI, 0, 0, 1)],
-							[NSValue valueWithCATransform3D:CATransform3DMakeScale(1.25, 1.25, 1)],
-							[NSValue valueWithCATransform3D:CATransform3DIdentity],nil];
-		aniamtion.keyTimes = [NSArray arrayWithObjects:
-							  [NSNumber numberWithFloat:0],
-							  [NSNumber numberWithFloat:0.5],
-							  [NSNumber numberWithFloat:1], nil];
-		aniamtion.timingFunctions = [NSArray arrayWithObjects:
-									 [CAMediaTimingFunction functionWithName:
-									  kCAMediaTimingFunctionEaseInEaseOut],
-									 [CAMediaTimingFunction functionWithName:
-									  kCAMediaTimingFunctionEaseInEaseOut],
-									 nil];
-		aniamtion.duration = 1.f;
-		[_activity.layer addAnimation:aniamtion forKey:@"activityScaleAnimate"];
-		_tipLabel.text = YCRefreshControlTitle;
-		_tipLabel.alpha = 1;
-		self.refreshing = YES;
+		[self startAnimation];
 	}
 	
 	CGPathRelease(path);
 }
 
+- (void)startAnimation {
+	// 动画展示 activity
+	[_activity startAnimating];
+	_activity.alpha = 1;
+	_activity.layer.transform = CATransform3DIdentity;
+	CAKeyframeAnimation *aniamtion = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
+	
+	aniamtion.values = [NSArray arrayWithObjects:
+						[NSValue valueWithCATransform3D:
+						 CATransform3DRotate(CATransform3DMakeScale(0.01, 0.01, 0.1),
+											 -M_PI, 0, 0, 1)],
+						[NSValue valueWithCATransform3D:CATransform3DMakeScale(1.25, 1.25, 1)],
+						[NSValue valueWithCATransform3D:CATransform3DIdentity],nil];
+	aniamtion.keyTimes = [NSArray arrayWithObjects:
+						  [NSNumber numberWithFloat:0],
+						  [NSNumber numberWithFloat:0.5],
+						  [NSNumber numberWithFloat:1], nil];
+	aniamtion.timingFunctions = [NSArray arrayWithObjects:
+								 [CAMediaTimingFunction functionWithName:
+								  kCAMediaTimingFunctionEaseInEaseOut],
+								 [CAMediaTimingFunction functionWithName:
+								  kCAMediaTimingFunctionEaseInEaseOut],
+								 nil];
+	aniamtion.duration = 1.f;
+	[_activity.layer addAnimation:aniamtion forKey:@"activityScaleAnimate"];
+	_tipLabel.text = YCRefreshControlTitle;
+	_tipLabel.alpha = 1;
+	_refreshing = YES;
+}
+
 - (void)endAnimation {
 	if (_refreshing) {
-		self.refreshing = NO;
-		_canRefresh = NO;
 		_tipLabel.text = @"刷新完成";
-		[UIView animateWithDuration:WSlowAnimationTime animations:^{
-			_tipLabel.alpha = 0;
-			_activity.alpha = 0;
+		[UIView animateWithDuration:WFastAnimationTime animations:^{
+			_tipLabel.alpha = 0.5;
 			_activity.layer.transform = CATransform3DMakeScale(0.1, 0.1, 1);
 		} completion:^(BOOL finished) {
-			[_shapeLayer removeAllAnimations];
-			_shapeLayer.path = nil;
-			_shapeLayer.shadowPath = nil;
-			_shapeLayer.position = CGPointZero;
-			[_arrowLayer removeAllAnimations];
-			_arrowLayer.path = nil;
-			[_highlightLayer removeAllAnimations];
-			_highlightLayer.path = nil;
+			if (finished) {
+				_tipLabel.alpha = 0;
+				[_activity stopAnimating];
+				[_shapeLayer removeAllAnimations];
+				_shapeLayer.path = nil;
+				_shapeLayer.shadowPath = nil;
+				_shapeLayer.position = CGPointZero;
+				[_arrowLayer removeAllAnimations];
+				_arrowLayer.path = nil;
+				[_highlightLayer removeAllAnimations];
+				_highlightLayer.path = nil;
+				_refreshing = NO;
+			}
 		}];
 	}
 }

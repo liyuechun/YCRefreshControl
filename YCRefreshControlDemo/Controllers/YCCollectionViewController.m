@@ -53,18 +53,34 @@
     [self.view addSubview:collectionView];
     UINib *nibName = [UINib nibWithNibName:@"CollectionViewCell" bundle:nil];
     [collectionView registerNib:nibName forCellWithReuseIdentifier:@"cellID"];
-    
-    @weakify(collectionView);
-    [collectionView setRefreshAction:^{
-        @strongify(collectionView);
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [_refreshData insertObject:[NSString stringWithFormat:@"%@", [NSDate date]] atIndex:0];
-            [collectionView endRefresh];
-            [collectionView reloadData];
+	
+    [collectionView yc_setRefreshAction:^{
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[_refreshData insertObject:[NSString stringWithFormat:@"%@", [NSDate date]] atIndex:0];
+			
+			[collectionView performBatchUpdates:^{
+				[collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:0 inSection:0]]];
+			} completion:^(BOOL finished) {
+				if (finished) {
+					[collectionView yc_endRefresh];
+				}
+			}];
         });
     }];
-    
-    
+	[collectionView yc_setLoadmoreAction:^{
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[_refreshData addObject:[NSString stringWithFormat:@"%@", [NSDate date]]];
+			
+			[collectionView performBatchUpdates:^{
+				[collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:_refreshData.count - 1 inSection:0]]];
+			} completion:^(BOOL finished) {
+				if (finished) {
+					[collectionView yc_endLoadmore];
+				}
+			}];
+		});
+	}];
+	
     NSArray *initArray = @[@"有问题请联系->《iOS编程之美》技术讨论群：343640780",@"有问题请联系->微信:Liyuechun2012", @"有问题请联系->QQ:939442932 1244357005",@"春哥：https://github.com/LiYueChun", @"简书地址:http://www.jianshu.com/users/336468483205/latest_articles", @"新浪微博:http://weibo.com/mobiledevelopment", @"新浪博客:http://blog.sina.com.cn/technicalarticle"];
     
     _refreshData = [[NSMutableArray alloc] initWithArray:initArray];

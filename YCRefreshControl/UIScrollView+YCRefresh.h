@@ -23,38 +23,43 @@
 #import <UIKit/UIKit.h>
 #import "YCRefreshDefine.h"
 
-typedef void (^YCAction)();
-
 @interface UIScrollView (YCRefresh)
-
-@property (nonatomic, copy, readonly) YCAction refreshAction;
-@property (nonatomic, copy, readonly) YCAction loadmoreAction;
 
 /**
  *  设置刷新调用的 block
  *
  *  @param refreshAction block
  */
-- (void)setRefreshAction:(YCAction)refreshAction;
-/**
- *  设置加载更多的 block
- *
- *  @param loadmoreAction block
- */
-- (void)setLoadmoreAction:(YCAction)loadmoreAction;
-/**
- *  开始刷新，第一次进入界面可能调用
- */
-- (void)beginRefresh;
-
-/**
- *  获取数据后调用
- */
-- (void)endRefresh;
-
+- (void)yc_setRefreshAction:(YCAction)refreshAction;
 /**
  *  刷新的 view ，后期会开放
  */
-@property (nonatomic, strong) UIView <YCRefreshViewDelegate> *refreshView;
+@property (nonatomic, strong) UIView <YCRefreshViewDelegate> *yc_refreshView;
+/**
+ *  开始刷新，第一次进入界面可能调用
+ */
+- (void)yc_beginRefresh;
+/**
+ *  获取数据后调用
+ */
+- (void)yc_endRefresh;
+
+
+/**
+ *  设置加载更多的 block
+ */
+- (void)yc_setLoadmoreAction:(YCAction)loadmoreAction;
+/**
+ *  加载更多的 view ，后期会开放
+ */
+@property (nonatomic, strong) UIView <YCLoadmoreViewDelegate> *yc_loadmoreView;
+/**
+ *  加载更多操作完毕后调用
+ */
+- (void)yc_endLoadmore;
+/**
+ *  无更多数据可加载
+ */
+- (void)yc_setNoMoreData:(BOOL)noData;
 
 @end

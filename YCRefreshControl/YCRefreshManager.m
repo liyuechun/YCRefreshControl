@@ -22,39 +22,37 @@
 #import "YCRefreshManager.h"
 #import "UIScrollView+YCRefresh.h"
 
-#import "YCSlimeRefreshView.h"
-#import "ScrollViewFrameAccessor.h"
+typedef enum : NSUInteger {
+	YCRefreshStateUnset, // 未设置 refreshView
+	YCRefreshStateNormal, // 普通状态，未激活 refreshView
+	YCRefreshStatePulling, // 正在下拉状态，refresh 已经显示
+	YCRefreshStateRefreshing, // 正在刷新状态
+	YCRefreshStateRefreshed, // 刷新完成状态，可能用户还在下拉
+} YCRefreshState;
 
 typedef enum : NSUInteger {
-	YCRefreshStateNormal,
-	YCRefreshStateShow,
-	YCRefreshStateAnimating,
-	
-} YCRefreshState;
+	YCLoadmoreStateUnset, // 未设置 loadmoreView
+	YCLoadmoreStateNormal, // 普通状态，未激活 loadmoreView
+	YCLoadmoreStatePulling, // 正在上拉状态，loadmoreView 已经显示
+	YCLoadmoreStateLoading, // 正在加载数据状态
+	YCLoadmoreStateNoData, // 没有更多数据了
+} YCLoadmoreState;
 
 @interface YCRefreshManager ()
 {
-	
-	/** 记录scrollView刚开始的inset */
+	// scrollView 初始 Inset
 	UIEdgeInsets _originalInset;
-	
-	/** 所管理的 UIScrollView */
-	__weak UIScrollView *_scrollView;
-	
-	YCRefreshState _refreshState;
-	YCRefreshState _loadmoreState;
-	
-	CGFloat _pullUpPercent;
-	CGFloat _pullDownPercent;
-	
-	BOOL _needReset;
-	BOOL _isPullingDown;
-	BOOL _isPullingUp;
 }
 @property (nonatomic, weak) UIScrollView *scrollView;
-@property (nonatomic, strong) UIPanGestureRecognizer *panGestureRecognizer;
+@property (nonatomic, weak) UIPanGestureRecognizer *panGestureRecognizer;
+/**
+ *  刷新状态
+ */
 @property (nonatomic, assign) YCRefreshState refreshState;
-@property (nonatomic, assign) YCRefreshState loadmoreState;
+/**
+ *	加载更多状态
+ */
+@property (nonatomic, assign) YCLoadmoreState loadmoreState;
 
 @end
 
@@ -62,38 +60,52 @@ typedef enum : NSUInteger {
 
 - (instancetype)initWithScrollView:(UIScrollView *)scrollView {
 	if (self = [super init]) {
-		[self setupWith:scrollView];
+		// 初始化刷新状态
 		_refreshState = YCRefreshStateNormal;
-		_pullUpPercent = 0.0f;
-		_pullDownPercent = 0.0f;
-		_isPullingDown = NO;
-		_needReset = NO;
-        self.scrollView.alwaysBounceVertical = YES;
+		_loadmoreState = YCLoadmoreStateNormal;
+		
+		// 设置监控的 scrollView
+		[self setupWith:scrollView];
 	}
 	return self;
 }
 
+// 根据传入的 scrollView 进行一些设置
 - (void)setupWith:(UIScrollView *)scrollView {
+	// 首次传入时候，将 _originalInset 设置为 scrollView 的 contentInset
+	_originalInset = scrollView.contentInset;
+	
+	// 将 scrollView 和 scrollView 的滑动手势设置为成员变量
 	self.scrollView = scrollView;
 	self.panGestureRecognizer = scrollView.panGestureRecognizer;
-	_originalInset = self.scrollView.contentInset;
 	
-	[self addObserverFor:scrollView];
+	// 设置 scrollView 的弹簧效果开启
+	self.scrollView.alwaysBounceVertical = YES;
 	
+	// 添加 kvo 监控 scrollView 的一些属性值变化
+	[self addObserver];
 }
-- (void)addObserverFor:(UIScrollView *)scrollView {
+// 监听属性
+- (void)addObserver {
 	[self.scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
 	[self.scrollView addObserver:self forKeyPath:@"contentInset" options:NSKeyValueObservingOptionNew context:nil];
 	[self.scrollView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:nil];
 	[self.scrollView addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:nil];
-	[self.scrollView.panGestureRecognizer addObserver:self forKeyPath:@"state" options:NSKeyValueObservingOptionNew context:nil];
+	[self.panGestureRecognizer addObserver:self forKeyPath:@"state" options:NSKeyValueObservingOptionNew context:nil];
+	
+	[self.scrollView addObserver:self forKeyPath:@"yc_loadmoreView" options:NSKeyValueObservingOptionNew context:nil];
+	[self.scrollView addObserver:self forKeyPath:@"yc_refreshView" options:NSKeyValueObservingOptionNew context:nil];
 }
+// 移除监听
 - (void)removeObserver {
 	[self.scrollView removeObserver:self forKeyPath:@"contentOffset"];
 	[self.scrollView removeObserver:self forKeyPath:@"contentInset"];
 	[self.scrollView removeObserver:self forKeyPath:@"contentSize"];
 	[self.scrollView removeObserver:self forKeyPath:@"frame"];
-	[self.scrollView.panGestureRecognizer removeObserver:self forKeyPath:@"state"];
+	[self.panGestureRecognizer removeObserver:self forKeyPath:@"state"];
+	
+	[self.scrollView removeObserver:self forKeyPath:@"yc_loadmoreView"];
+	[self.scrollView removeObserver:self forKeyPath:@"yc_refreshView"];
 }
 
 #pragma mark - KVO
@@ -112,11 +124,19 @@ typedef enum : NSUInteger {
 		}
 		else if([keyPath isEqualToString:@"contentSize"])
 		{
-			
+			[self handleContentSizeChange:change];
 		}
 		else if([keyPath isEqualToString:@"frame"])
 		{
 			
+		}
+		else if([keyPath isEqualToString:@"yc_loadmoreView"])
+		{
+			[self handleLoadmoreViewChange:change];
+		}
+		else if([keyPath isEqualToString:@"yc_refreshView"])
+		{
+			[self handleRefreshViewChange:change];
 		}
 	}
 	else if([keyPath isEqualToString:@"state"])
@@ -125,89 +145,236 @@ typedef enum : NSUInteger {
 	}
 }
 - (void)handleGecognizerChange:(NSDictionary *)change {
-//	WLog(@"%@", self.panGestureRecognizer);
-	if (self.panGestureRecognizer.state == UIGestureRecognizerStateEnded) {
-		if (_refreshState == YCRefreshStateAnimating) {
-			CGFloat resetOffsetY = _originalInset.top;
-			if (!_needReset) {
-				resetOffsetY += [self.scrollView.refreshView refreshHeight];
-			}
-			[UIView animateWithDuration:WSlowAnimationTime animations:^{
-				self.scrollView.contentInsetTop = resetOffsetY;
-			} completion:^(BOOL finished) {
-				if (_needReset && finished) {
-					_refreshState = YCRefreshStateNormal;
-					_needReset = NO;
-				}
-			}];
-		}
+	// 根据手势的 state 和 refresh 执行相应的操作
+	[self setScrollContent];
+}
+// 如果 scrollView 的 contentInset 改变，若是用户改变，则改变 _originalInset 的值
+- (void)handleContentInsetChange:(NSDictionary *)change {
+	if (self.refreshState == YCRefreshStateNormal) {
+		_originalInset.top = _scrollView.contentInset.top;
 	}
+	if (self.loadmoreState == YCLoadmoreStateNormal) {
+		_originalInset.bottom = _scrollView.contentInset.bottom;
+	}
+}
+- (void)handleContentSizeChange:(NSDictionary *)change {
+	if (self.refreshAction) {
+		_scrollView.yc_refreshView.frame = CGRectMake(0, -[_scrollView.yc_refreshView totalHeight], _scrollView.contentSize.width, [_scrollView.yc_refreshView totalHeight]);
+	}
+	if (self.loadmoreAction) {
+		_scrollView.yc_loadmoreView.frame = CGRectMake(0, _scrollView.contentSize.height, _scrollView.contentSize.width, [_scrollView.yc_loadmoreView loadmoreHeight]);
+	}
+}
+- (void)handleLoadmoreViewChange:(NSDictionary *)change {
+	UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] init];
+	[_scrollView.yc_loadmoreView addGestureRecognizer:tap];
+	[_scrollView.yc_loadmoreView setUserInteractionEnabled:YES];
+	[tap addTarget:self action:@selector(tapLoadmoreView)];
+}
+- (void)handleRefreshViewChange:(NSDictionary *)change {
+	
 }
 - (void)handleContentOffsetChange:(NSDictionary *)change {
-	CGFloat offsetY = _scrollView.contentOffsetY + _scrollView.contentInsetTop;
-	if (self.scrollView.refreshView && [self.scrollView.refreshView respondsToSelector:@selector(scrollView:changeContentOffset:)]) {
-		[self.scrollView.refreshView scrollView:self.scrollView changeContentOffset:change];
-	}
-	if (offsetY <= 0) {
-		if (!_scrollView.refreshAction) {
-			return;
-		}else if (!_scrollView.refreshView) {
-			_scrollView.refreshView = [[YCSlimeRefreshView alloc] initWithFrame:CGRectMake(0, -[_scrollView.refreshView totalHeight] + _originalInset.top, _scrollView.frame.size.width, -[_scrollView.refreshView totalHeight])];
+	// scrollview 当前滑动到的位置，去掉 contentInset 的影响
+	CGFloat offsetY = _scrollView.contentOffset.y + _scrollView.contentInset.top;
+	if (offsetY < 0) {
+		// 如果设置了 refreshAction ，并且现在不处于刷新状态才继续进行
+		if (self.refreshAction && _refreshState != YCRefreshStateRefreshing && _refreshState != YCRefreshStateRefreshed) {
 			
-		}
-		if (-offsetY <= [_scrollView.refreshView totalHeight]) {
-			
-		}else if(_refreshState != YCRefreshStateAnimating) {
-			_refreshState = YCRefreshStateAnimating;
-			_scrollView.refreshAction();
-			if (!self.scrollView.isTracking) {
-				[UIView animateWithDuration:WFastAnimationTime animations:^{
-					[self.scrollView setContentOffset:CGPointMake(0, -(_originalInset.top + [_scrollView.refreshView refreshHeight])) animated:YES];
-					
-				}];
+			// 如果当前滑动的位置没有到设定的最大高度
+			if (-offsetY <= [_scrollView.yc_refreshView totalHeight]) {
+				// 更新 refreshState 为正在下拉
+				_refreshState = YCRefreshStatePulling;
+			}
+			// 如果达到了最大高度
+			else {
+				// 将 refreshState 更新为正在刷新
+				_refreshState = YCRefreshStateRefreshing;
+				
+				// 并执行 refreshAction，并做其他的操作，如 更新 _scrollView 的 contentOffset、contentInset
+				[self refreshing];
+			}
+			if (_scrollView.yc_refreshView && [_scrollView.yc_refreshView respondsToSelector:@selector(scrollView:changeContentOffset:)]) {
+				[_scrollView.yc_refreshView scrollView:_scrollView changeContentOffset:change];
 			}
 		}
-		
-	}
-}
-- (void)handleContentInsetChange:(NSDictionary *)change {
-//	WLog(@"%@", NSStringFromUIEdgeInsets(self.scrollView.contentInset));
-	if (_refreshState != YCRefreshStateAnimating) {
-		_originalInset = _scrollView.contentInset;
-		_scrollView.refreshView.frame = CGRectMake(0, -[_scrollView.refreshView totalHeight], _scrollView.frame.size.width, [_scrollView.refreshView totalHeight]);
 	}
 	
-	if (_scrollView.refreshView && [_scrollView.refreshView respondsToSelector:@selector(scrollView:changeContentInset:)]) {
-		[_scrollView.refreshView scrollView:_scrollView changeContentInset:change];
+	if (self.loadmoreAction) {
+		CGFloat boundHeight = _scrollView.bounds.size.height;
+		CGFloat contentHeight = _scrollView.contentSize.height;
+		offsetY = contentHeight - boundHeight - _scrollView.contentOffset.y + _scrollView.contentInset.bottom;
+		
+		if (contentHeight > 0) {
+			if (_loadmoreState != YCLoadmoreStateNoData && _loadmoreState != YCLoadmoreStateLoading) {
+				if (offsetY >= [_scrollView.yc_loadmoreView loadmoreHeight]) {
+					_loadmoreState = YCLoadmoreStatePulling;
+				}
+				else {
+					// 将 loadmoreState 更新为正在加载
+					_loadmoreState = YCLoadmoreStateLoading;
+					
+					// 并执行 refreshAction，并做其他的操作，如 更新 _scrollView 的 contentOffset、contentInset
+					[self loading];
+				}
+				
+				if (_scrollView.yc_loadmoreView && [_scrollView.yc_loadmoreView respondsToSelector:@selector(scrollView:changeContentOffset:)]) {
+					[_scrollView.yc_loadmoreView scrollView:_scrollView changeContentOffset:change];
+				}
+			}
+		}
 	}
 }
 
 - (void)beginRefresh {
-	if (_refreshState != YCRefreshStateAnimating) {
-		if (!_scrollView.refreshAction) {
-			return;
-		}else if (!_scrollView.refreshView) {
-			_scrollView.refreshView = [[YCSlimeRefreshView alloc] initWithFrame:CGRectMake(0, -[_scrollView.refreshView totalHeight] + _originalInset.top, _scrollView.frame.size.width, -[_scrollView.refreshView totalHeight])];
-			
-		}
-		[_scrollView setContentOffset:CGPointMake(0, -(_originalInset.top + [_scrollView.refreshView totalHeight] + 5)) animated:YES];
+	// 当主动调用 beginRefresh 方法，先判断是否正在刷新，或者是否设置了 refreshAction
+	if (_refreshState != YCRefreshStateRefreshing && self.refreshAction) {
+		// 设置 _scrollView 的 contentOffset 到足够大，kvo 监测并触发刷新的方法。
+		[_scrollView setContentOffset:CGPointMake(_scrollView.contentOffset.x, -(_originalInset.top + [_scrollView.yc_refreshView totalHeight] + 5)) animated:YES];
 	}
 }
+- (void)refreshing {
+	// 调用刷新 block
+	self.refreshAction();
+	// 如果 scrollView 没有处于 tracking 状态，直接设置 scrollView 合适的 contentInset
+	if (!_scrollView.isTracking) {
+		[self setScrollContent];
+	}
+}
+- (void)loading {
+	// 调用加载更多数据的 block
+	self.loadmoreAction();
+	if (_scrollView.yc_loadmoreView && [_scrollView.yc_loadmoreView respondsToSelector:@selector(beginAnimation)]) {
+		[_scrollView.yc_loadmoreView beginAnimation];
+	}
+}
+- (void)setScrollContent {
+	// 如果手势刚结束
+	if (self.panGestureRecognizer.state == UIGestureRecognizerStateEnded) {
+		// 如果处在正在刷新状态，继续
+		if (_refreshState == YCRefreshStateRefreshing) {
+			// 在上部添加 contentInset 显示 refreshView 动画
+			[self setScrollViewContentInsetForRefreshingAnimated:YES];
+		}else if(_refreshState == YCRefreshStateRefreshed) {
+			// 重置 scrollView 的 contentInset 到原始数值
+			[self resetScrollViewContentInsetWithCompletion:^(BOOL finished) {
+				if (finished) {
+					// 说明已经执行过 endRefresh 将 refreshState 重置
+					_refreshState = YCRefreshStateNormal;
+				}
+			}];
+		}
+	}
+	// 手势可用，未触发
+	else if (self.panGestureRecognizer.state == UIGestureRecognizerStatePossible) {
+		if (_refreshState == YCRefreshStateRefreshing) {
+			[self setScrollViewContentInsetForRefreshingAnimated:YES];
+		}else if(_refreshState == YCRefreshStateRefreshed) {
+			[self resetScrollViewContentInsetWithCompletion:^(BOOL finished) {
+				if (finished) {
+					// 说明已经执行过 endRefresh 将 refreshState 重置
+					_refreshState = YCRefreshStateNormal;
+				}
+			}];
+		}
+		
+	}
+	// 手势开始触发
+	else if (self.panGestureRecognizer.state == UIGestureRecognizerStateBegan) {
+		
+	}
+}
+- (void)tapLoadmoreView {
+	if (_loadmoreState != YCLoadmoreStateLoading) {
+		_loadmoreState = YCLoadmoreStateLoading;
+		[self loading];
+	}
+}
+// 结束刷新
 - (void)endRefresh {
-//	WLog(@"%@", NSStringFromUIEdgeInsets(_originalInset));
-	[_scrollView.refreshView endAnimation];
-	if (!self.scrollView.isTracking) {
-		[UIView animateWithDuration:WSlowAnimationTime animations:^{
-			self.scrollView.contentInsetTop = _originalInset.top;
-			self.scrollView.contentOffset = CGPointMake(0, -_originalInset.top);
-		} completion:^(BOOL finished) {
-			_refreshState = YCRefreshStateNormal;
-		}];
+	// 如果当前处于正在刷新状态才会有效果
+	if (_refreshState == YCRefreshStateRefreshing) {
+		// 结束 refreshView 的动画
+		if (_scrollView.yc_refreshView && [_scrollView.yc_refreshView respondsToSelector:@selector(endAnimation)]) {
+			[_scrollView.yc_refreshView endAnimation];
+		}
+		// 将 refreshState 设置为 YCRefreshStateRefreshed ，代表刷新完成
+		_refreshState = YCRefreshStateRefreshed;
+		// 如果 scrollView 没有处于 tracking 状态，直接设置 scrollView 合适的 contentInset
+		if (!_scrollView.isTracking) {
+			[self setScrollContent];
+		}
+	}
+}
+// 结束加载更多数据
+- (void)endLoadmore {
+	// 如果当前处于正在加载更多数据状态才会有效果
+	if (_loadmoreState == YCLoadmoreStateLoading || _loadmoreState == YCLoadmoreStateNoData) {
+		// 结束 loadmoreView 的动画
+		if (_scrollView.yc_loadmoreView && [_scrollView.yc_loadmoreView respondsToSelector:@selector(endAnimation)]) {
+			[_scrollView.yc_loadmoreView endAnimation];
+		}
+		
+		if (_loadmoreState != YCLoadmoreStateNoData) {
+			// 将 loadmoreState 设置为 YCLoadmoreStateNormal ，代表加载数据完成
+			_loadmoreState = YCLoadmoreStateNormal;
+		}
+		
+		// 如果 scrollView 没有处于 tracking 状态，直接设置 scrollView 合适的 contentInset
+		if (!_scrollView.isTracking) {
+			[self setScrollContent];
+		}
+	}
+}
+// 设置没有更多数据可以加载
+- (void)setNoMoreData:(BOOL)noData {
+	if (noData) {
+		_loadmoreState = YCLoadmoreStateNoData;
 	}else {
-		_needReset = YES;
+		_loadmoreState = YCLoadmoreStateNormal;
+	}
+	if (_scrollView.yc_loadmoreView && [_scrollView.yc_loadmoreView respondsToSelector:@selector(setNoMoreData:)]) {
+		[_scrollView.yc_loadmoreView setNoMoreData:noData];
 	}
 }
 
+// animated contentInset
+- (void)setScrollViewContentInset:(UIEdgeInsets)inset animated:(BOOL)animated complete:(void(^)(BOOL finished))completion {
+	void (^updateBlock)(void) = ^{
+		self.scrollView.contentInset = inset;
+	};
+	
+	dispatch_async(dispatch_get_main_queue(), ^{
+		if (animated) {
+			[UIView animateWithDuration:WSlowAnimationTime
+								  delay:0
+								options:(UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseIn)
+							 animations:updateBlock
+							 completion:completion];
+		} else {
+			updateBlock();
+		}
+	});
+}
+
+- (void)resetScrollViewContentInsetWithCompletion:(void(^)(BOOL finished))completion {
+	[self setScrollViewContentInset:_originalInset animated:YES complete:completion];
+}
+
+- (void)setScrollViewContentInset:(UIEdgeInsets)insetes forLoadingAnimated:(BOOL)animated {
+	[self setScrollViewContentInset:insetes animated:animated complete:nil];
+}
+
+- (void)setScrollViewContentInsetForRefreshingAnimated:(BOOL)animated {
+	UIEdgeInsets loadingInset = _originalInset;
+	loadingInset.top += [_scrollView.yc_refreshView refreshHeight];
+	[self setScrollViewContentInset:loadingInset forLoadingAnimated:animated];
+}
+- (void)setScrollViewContentInsetForNormalAnimated:(BOOL)animated {
+	[self setScrollViewContentInset:_originalInset forLoadingAnimated:animated];
+}
+
+// dealloc 时候移除监听
 - (void)dealloc {
 	[self removeObserver];
 }
