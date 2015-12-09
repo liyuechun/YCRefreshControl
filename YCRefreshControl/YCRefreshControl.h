@@ -22,7 +22,6 @@
 #ifndef YCRefreshControl_h
 #define YCRefreshControl_h
 
-#import "EXTScope.h"
 #import "UIScrollView+YCRefresh.h"
 
 #endif /* YCRefreshControl_h */

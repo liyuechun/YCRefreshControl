@@ -44,12 +44,10 @@
     self.scrollView = scrollView;
 	[self.view addSubview:scrollView];
 	[scrollView setContentSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height)];
-	@weakify(scrollView);
-	[scrollView setRefreshAction:^{
-		@strongify(scrollView);
+	[scrollView yc_setRefreshAction:^{
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			self.view.backgroundColor = WArcColor;
-			[scrollView endRefresh];
+			[scrollView yc_endRefresh];
 		});
 	}];
 	
@@ -71,7 +69,7 @@
 //开始刷新
 - (void)beginRefresh {
 
-    [_scrollView beginRefresh];
+    [_scrollView yc_beginRefresh];
     
 }
 

@@ -57,20 +57,41 @@
     tableView.delegate = self;
     tableView.dataSource = self;
     tableView.rowHeight = 64;
-    @weakify(tableView);
-    [tableView setRefreshAction:^{
-        @strongify(tableView);
+	[tableView yc_setRefreshAction:^{
+		
+		// 这里写刷新的方法，可以获取网络数据
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[_tableView beginUpdates];
+			
             [_refreshData insertObject:[NSString stringWithFormat:@"%@", [NSDate date]] atIndex:0];
-            [tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-            //			[tableView reloadData];
-            [tableView endRefresh];
+            [_tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+			[_tableView endUpdates];
+            [tableView yc_endRefresh];
         });
-    }];
-    
+	}];
+	
+	[tableView yc_setLoadmoreAction:^{
+		
+		// 这里写加载更多的方法，可以获取网络数据
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+			[_refreshData addObject:[NSString stringWithFormat:@"%@", [NSDate date]]];
+			[_tableView beginUpdates];
+			[_tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:_refreshData.count - 1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+			[_tableView endUpdates];
+			// 完成后结束加载
+			[tableView yc_endLoadmore];
+			
+			// 设置没有更多数据，可以设置，也可以不设置
+			if (_refreshData.count > 10) {
+				[_tableView yc_setNoMoreData:YES];
+			}else {
+				[_tableView yc_setNoMoreData:NO];
+			}
+		});
+	}];
+	
     _tableView = tableView;
 }
-
 
 #pragma mark --UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -81,12 +102,12 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellID"];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cellID"];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellID"];
         
     }
     cell.textLabel.adjustsFontSizeToFitWidth = YES;
-    cell.textLabel.font = [UIFont italicSystemFontOfSize:10];
-    cell.textLabel.text = _refreshData[indexPath.row];
+    cell.textLabel.font = [UIFont italicSystemFontOfSize:12];
+    cell.textLabel.text = _refreshData[indexPath.row % _refreshData.count];
     
     return cell;
 }

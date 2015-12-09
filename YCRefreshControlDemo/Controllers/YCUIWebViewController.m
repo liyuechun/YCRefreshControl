@@ -41,18 +41,15 @@
     
     UIScrollView *scrollView = webView.scrollView;
     _initArray = @[@"https://github.com/LiYueChun", @"http://www.jianshu.com/users/336468483205/latest_articles", @"http://weibo.com/mobiledevelopment", @"http://blog.sina.com.cn/technicalarticle"];
-    @weakify(scrollView);
-    @weakify(webView);
-    [scrollView setRefreshAction:^{
-        @strongify(scrollView);
-        @strongify(webView);
+	
+    [scrollView yc_setRefreshAction:^{
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             NSInteger randomCount = arc4random_uniform(4);
             NSString *path = _initArray[randomCount];
             NSURL *url = [NSURL URLWithString:path];
             NSURLRequest *request = [NSURLRequest requestWithURL:url];
             [webView loadRequest:request];
-            [scrollView endRefresh];
+            [scrollView yc_endRefresh];
         });
     }];
 
