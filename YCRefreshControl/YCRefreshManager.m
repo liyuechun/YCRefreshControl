@@ -181,7 +181,7 @@ typedef enum : NSUInteger {
 - (void)handleContentOffsetChange:(NSDictionary *)change {
 	// scrollview 当前滑动到的位置，去掉 contentInset 的影响
 	CGFloat offsetY = _scrollView.contentOffset.y + _scrollView.contentInset.top;
-	if (offsetY < 0 && _loadmoreState != YCLoadmoreStateNoData && _loadmoreState != YCLoadmoreStateLoading) {
+	if (offsetY < 0 && _loadmoreState != YCLoadmoreStateLoading) {
 		// 如果设置了 refreshAction ，并且现在不处于刷新状态才继续进行
 		if (self.refreshAction && _refreshState != YCRefreshStateRefreshing && _refreshState != YCRefreshStateRefreshed) {
 			
