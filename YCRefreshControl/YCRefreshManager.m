@@ -42,6 +42,9 @@ typedef enum : NSUInteger {
 {
 	// scrollView 初始 Inset
 	UIEdgeInsets _originalInset;
+	
+	// scrollView 开始拖动的 contentOffset
+	CGPoint _originalOffset;
 }
 @property (nonatomic, weak) UIScrollView *scrollView;
 @property (nonatomic, weak) UIPanGestureRecognizer *panGestureRecognizer;
@@ -74,6 +77,7 @@ typedef enum : NSUInteger {
 - (void)setupWith:(UIScrollView *)scrollView {
 	// 首次传入时候，将 _originalInset 设置为 scrollView 的 contentInset
 	_originalInset = scrollView.contentInset;
+	_originalOffset = scrollView.contentOffset;
 	
 	// 将 scrollView 和 scrollView 的滑动手势设置为成员变量
 	self.scrollView = scrollView;
@@ -87,7 +91,7 @@ typedef enum : NSUInteger {
 }
 // 监听属性
 - (void)addObserver {
-	[self.scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
+	[self.scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:nil];
 	[self.scrollView addObserver:self forKeyPath:@"contentInset" options:NSKeyValueObservingOptionNew context:nil];
 	[self.scrollView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:nil];
 	[self.scrollView addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:nil];
@@ -177,7 +181,7 @@ typedef enum : NSUInteger {
 - (void)handleContentOffsetChange:(NSDictionary *)change {
 	// scrollview 当前滑动到的位置，去掉 contentInset 的影响
 	CGFloat offsetY = _scrollView.contentOffset.y + _scrollView.contentInset.top;
-	if (offsetY < 0) {
+	if (offsetY < 0 && _loadmoreState != YCLoadmoreStateLoading) {
 		// 如果设置了 refreshAction ，并且现在不处于刷新状态才继续进行
 		if (self.refreshAction && _refreshState != YCRefreshStateRefreshing && _refreshState != YCRefreshStateRefreshed) {
 			
@@ -200,12 +204,13 @@ typedef enum : NSUInteger {
 		}
 	}
 	
-	if (self.loadmoreAction) {
+	if (self.loadmoreAction && _refreshState != YCRefreshStateRefreshing && _refreshState != YCRefreshStateRefreshed) {
 		CGFloat boundHeight = _scrollView.bounds.size.height;
 		CGFloat contentHeight = _scrollView.contentSize.height;
 		offsetY = contentHeight - boundHeight - _scrollView.contentOffset.y + _scrollView.contentInset.bottom;
 		
-		if (contentHeight > 0) {
+		NSValue *newValue = [change objectForKey:@"new"];
+		if (_scrollView.isTracking && contentHeight > 0 && [newValue CGPointValue].y > _originalOffset.y) {
 			if (_loadmoreState != YCLoadmoreStateNoData && _loadmoreState != YCLoadmoreStateLoading) {
 				if (offsetY >= [_scrollView.yc_loadmoreView loadmoreHeight]) {
 					_loadmoreState = YCLoadmoreStatePulling;
@@ -258,10 +263,8 @@ typedef enum : NSUInteger {
 		}else if(_refreshState == YCRefreshStateRefreshed) {
 			// 重置 scrollView 的 contentInset 到原始数值
 			[self resetScrollViewContentInsetWithCompletion:^(BOOL finished) {
-				if (finished) {
-					// 说明已经执行过 endRefresh 将 refreshState 重置
-					_refreshState = YCRefreshStateNormal;
-				}
+				// 说明已经执行过 endRefresh 将 refreshState 重置
+				_refreshState = YCRefreshStateNormal;
 			}];
 		}
 	}
@@ -271,17 +274,15 @@ typedef enum : NSUInteger {
 			[self setScrollViewContentInsetForRefreshingAnimated:YES];
 		}else if(_refreshState == YCRefreshStateRefreshed) {
 			[self resetScrollViewContentInsetWithCompletion:^(BOOL finished) {
-				if (finished) {
-					// 说明已经执行过 endRefresh 将 refreshState 重置
-					_refreshState = YCRefreshStateNormal;
-				}
+				// 说明已经执行过 endRefresh 将 refreshState 重置
+				_refreshState = YCRefreshStateNormal;
 			}];
 		}
 		
 	}
 	// 手势开始触发
 	else if (self.panGestureRecognizer.state == UIGestureRecognizerStateBegan) {
-		
+		_originalOffset = _scrollView.contentOffset;
 	}
 }
 - (void)tapLoadmoreView {

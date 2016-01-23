@@ -292,19 +292,17 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
 			_tipLabel.alpha = 0.5;
 			_activity.layer.transform = CATransform3DMakeScale(0.1, 0.1, 1);
 		} completion:^(BOOL finished) {
-			if (finished) {
-				_tipLabel.alpha = 0;
-				[_activity stopAnimating];
-				[_shapeLayer removeAllAnimations];
-				_shapeLayer.path = nil;
-				_shapeLayer.shadowPath = nil;
-				_shapeLayer.position = CGPointZero;
-				[_arrowLayer removeAllAnimations];
-				_arrowLayer.path = nil;
-				[_highlightLayer removeAllAnimations];
-				_highlightLayer.path = nil;
-				_refreshing = NO;
-			}
+			_tipLabel.alpha = 0;
+			[_activity stopAnimating];
+			[_shapeLayer removeAllAnimations];
+			_shapeLayer.path = nil;
+			_shapeLayer.shadowPath = nil;
+			_shapeLayer.position = CGPointZero;
+			[_arrowLayer removeAllAnimations];
+			_arrowLayer.path = nil;
+			[_highlightLayer removeAllAnimations];
+			_highlightLayer.path = nil;
+			_refreshing = NO;
 		}];
 	}
 }
